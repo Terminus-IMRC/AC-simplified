@@ -1,0 +1,38 @@
+\def \wrkdir {p.fb/}
+\def \fb {\texttt{fb}}
+
+\mpart{Linuxのフレームバッファを画像に変換するプログラムの作成とその利用}
+\label{pa:fb}
+
+フレームバッファを画像に変換するプログラムは複数開発されているが、
+インターネット上で公開されているものは全て特定の解像度や色深度等にしか対応していなかった。
+よって、フレームバッファから得ることができる情報を元にしてほぼすべての解像度や色深度等に対応し、
+かつ出力画像のフォーマットも複数対応するようなプログラムを作成した。
+
+今回は出力画像形式としてPNGとJPEGをサポートした。
+フレームバッファを画像に変換するプログラムを\cite{bib:fb}に示す。
+実際に出力された画像の例を図\ref{fig:fb2i-out}に示す。
+
+\begin{figure}[htb]
+\centering
+\begin{minipage}{0.6\linewidth}
+\frame{\includegraphics[height=\textheight,width=\textwidth,keepaspectratio]{\wrkdir img/out.png}}
+\caption{実際に出力された画像}
+\label{fig:fb2i-out}
+\end{minipage}
+\end{figure}
+
+また、フレームバッファの画面を
+ネットワークを通じて動画としてブロードキャストするプログラムも作成した。
+ブロードキャストするプログラムは、
+mjpg\_streamerというソフトウェアの入力プラグインを開発することにより実装した。
+ブロードキャストの実際の様子を図\ref{fig:fb2i-bcast}に示す。
+
+\begin{figure}[htb]
+\centering
+\begin{minipage}{0.6\linewidth}
+\frame{\includegraphics[height=\textheight,width=\textwidth,keepaspectratio]{\wrkdir img/bcast.png}}
+\caption{実際のストリーミングの様子 (webブラウザで動画を受信している)}
+\label{fig:fb2i-bcast}
+\end{minipage}
+\end{figure}
