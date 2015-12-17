@@ -1,0 +1,36 @@
+\def \wrkdir {p.cctn/}
+
+% CCTN stands for "Clustering Core Through Night".
+% "Core" means Tiny Core Linux and Micro Core Linux
+% which I used to build the cluster.
+% The new cluster described below could run day and night.
+% though the performance was not good.
+% The cluster was in 情報科準備室 in my school.
+% I spent a lot of time in doing researches,
+% talking with my (girl)friends, doing school council works
+% and so on in the room.
+% I enjoyed my youth in the room. The memory is irreplaceable...
+
+\mpart{占用できる並列計算システムの構築} \label{pa:cctn}
+
+第\ref{pa:ngk}\postmpartname{}で、学校のコンピュータ室のシステムを利用した
+並列計算システムを構築した。
+しかし、学校のコンピュータ室は授業でも使われるので、
+このシステムでは授業のない夜や休日にプログラムを走らせる必要があった。
+また、このシステムのノードは1台1台手動で起動させるので、
+システムの起動には手間がかかる。
+
+そこで、いつでも占用でき、また、ノードを簡単に起動させることができるような
+並列計算システムを構築した (図\ref{fig:cctn:front})。
+コンピュータやネットワーク等の機材は学校で余っていたものを使用した。
+ノードの OS は
+第\ref{pa:namikilinux}\postmpartname{}で作成したものを使用した。
+
+\begin{figure}[htb]
+\centering
+\begin{minipage}{0.5\linewidth}
+\frame{\includegraphics[height=\textheight,width=\textwidth,keepaspectratio]{\wrkdir img/front.png}}
+\caption{構築したシステムの様子}
+\label{fig:cctn:front}
+\end{minipage}
+\end{figure}
