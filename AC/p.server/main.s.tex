@@ -1,0 +1,33 @@
+\def \wrkdir {p.server/}
+
+\mpart{Raspberry Piを用いたサーバの設計と構築と用途及び低レベルなライブラリの開発}
+\label{pa:server}
+
+私は自宅に Raspberry Pi によるサーバを構築した。
+また、構築したサーバに新たな Raspberry Pi を接続し、
+遠隔地に住む友人に計算資源として提供した。
+
+\mmpart{ハードウェアにおける工夫}
+Raspberry Pi は本来 SD カードから OS を起動させるが、
+OS はログファイル等を SD カードに書き込むため、
+SD カードが早く書き込み寿命に達してしまう。
+よって、USB 経由でハードディスクを接続し、そこから OS を起動させるようにした。
+
+また、Raspberry Pi の電源をデスクトップ用の電源から引くことにより、
+サーバの動作の安定化を図った。
+
+最終的なサーバの配線や回路の様子を図\ref{fig:srv-peri-circ1}と図\ref{fig:srv-peri-circ2}に示す。
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.45\linewidth}
+\frame{\includegraphics[height=\textheight,width=\linewidth,keepaspectratio]{\wrkdir img/peri-circ1.png}}
+\caption{サーバの配線と回路の様子 (ファン等の制御部)}
+\label{fig:srv-peri-circ1}
+\end{minipage}
+\begin{minipage}{0.45\linewidth}
+\frame{\includegraphics[height=\textheight,width=\linewidth,keepaspectratio]{\wrkdir img/peri-circ2.png}}
+\caption{サーバの配線と回路の様子 (右:電源とその制御部、左上:Raspberry Pi 1、左下:Raspberry Pi 2)}
+\label{fig:srv-peri-circ2}
+\end{minipage}
+\end{figure}

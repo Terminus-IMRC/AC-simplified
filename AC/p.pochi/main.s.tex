@@ -1,0 +1,89 @@
+\def \wrkdir {p.pochi/}
+
+\mpart{POCHIのモータ制御部の開発} \label{pa:pochi}
+POCHIは平成27年度の文化祭 (6月5日・6日) で公開するために
+並木中等教育学校の3回生の生徒によって製作された
+モーションライドである。
+
+\mmpart{POCHIの構造と動作}
+POCHIは塩化ビニル管を組み合わせ、
+それをボルトとナットで固定した構造である (図\ref{fig:pochi-perspective})。
+
+POCHIは中心のベースに椅子が固定してあり、
+ベースが前後左右に自由に傾くようになっている (図\ref{fig:pochi-tilt})。
+前後方向と左右方向にはモータが1つずつ設置され、
+ワイヤによってベースに繋げられている (図\ref{fig:pochi-wire-right}、
+図\ref{fig:pochi-wire-left}、図\ref{fig:pochi-wire-with-motor})。
+モータを動かすことによってモータの軸にワイヤが巻きつけられ、ベースが傾くのである。
+
+また、前方向の上部にはディスプレイが固定されている。
+
+POCHIは椅子に人が座り、ディスプレイで動画を再生し、それに合わせて椅子が自動で傾くというアトラクションである
+(図\ref{fig:pochi-motion})。
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.45\linewidth}
+\frame{\includegraphics[height=\textheight,width=\textwidth,keepaspectratio]{\wrkdir img/perspective.png}}
+\caption{POCHI本体の全体の写真}
+\label{fig:pochi-perspective}
+\end{minipage}
+\begin{minipage}{0.45\linewidth}
+\frame{\includegraphics[height=\textheight,width=\textwidth,keepaspectratio]{\wrkdir img/tilt.png}}
+\caption{POCHI本体を実際に傾けた様子}
+\label{fig:pochi-tilt}
+\end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.45\linewidth}
+\frame{\includegraphics[height=\textheight,width=\textwidth,keepaspectratio]{\wrkdir img/wire-right.png}}
+\caption{POCHI本体の右側のワイヤ部分}
+\label{fig:pochi-wire-right}
+\end{minipage}
+\begin{minipage}{0.45\linewidth}
+\frame{\includegraphics[height=\textheight,width=\textwidth,keepaspectratio]{\wrkdir img/wire-left.png}}
+\caption{POCHI本体の左側のワイヤ部分}
+\label{fig:pochi-wire-left}
+\end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.45\linewidth}
+\frame{\includegraphics[height=\textheight,width=\textwidth,keepaspectratio]{\wrkdir img/wire-with-motor.png}}
+\caption{POCHI本体のワイヤとモータの接続部分}
+\label{fig:pochi-wire-with-motor}
+\end{minipage}
+\begin{minipage}{0.45\linewidth}
+\frame{\includegraphics[height=\textheight,width=\textwidth,keepaspectratio]{\wrkdir img/motion.png}}
+\caption{POCHIが実際に人間を乗せて動作している様子}
+\label{fig:pochi-motion}
+\end{minipage}
+\end{figure}
+
+\mmpart{モータ制御部の開発}
+私はPOCHIのモータを制御するハードウェアとソフトウェアの開発を行った。
+
+今回製作したモータ制御部の回路を図\ref{fig:pochi-circuit}に示す。
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.5\linewidth}
+\frame{\includegraphics[height=\textheight,width=\textwidth,keepaspectratio]{\wrkdir img/circuit.png}}
+\caption{POCHIの制御回路 (左:モータ制御回路、右:マイコン)}
+\label{fig:pochi-circuit}
+\end{minipage}
+\end{figure}
+
+POCHIのディスプレイで流す動画は他のメンバーが制作し、全部で3種類ある。
+動画に合わせた傾けるタイミングや方向・角度は、動画制作者に特定の書式で書いてもらった。
+POCHI本体は公開直前まで完成しなかったので、
+モータ制御部のプログラムは本体が傾く角速度等の設定を柔軟に変更できるよう、
+動画制作者には「傾き始めるタイミング」と「傾ける方向・角度」を指定してもらった。
+
+\mmpart{POCHIの公開}
+当日は前後方向のワイヤが乗る人の重量の関係でどうしても緩んでしまい、
+前後方向のモータは動かすことができなかったが、左右方向のモータや
+その制御部は正常に動いた。
