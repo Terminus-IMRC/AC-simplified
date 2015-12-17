@@ -107,7 +107,7 @@ clean:
 	$(RM) $(OBJS_PDF_EPS)
 	$(RM) $(OBJS_PDF)
 	$(RM) $(OBJS_DVI)
-	$(RMDIR) $(TMPIMGDIR)
+	$(RM) $(TMPIMGDIR)
 
 .PHONY: print-srcs
 print-srcs:
