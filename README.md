@@ -6,5 +6,6 @@ AC 入試で提出した自己推薦書の簡易版です。
 ## PDF ファイルの作成方法
 <pre>
 $ cd AC/
+$ curl http://imrc.noip.me/AC/89f6a76d/img-20151030.tar | tar xf -
 $ make pdf
 </pre>
