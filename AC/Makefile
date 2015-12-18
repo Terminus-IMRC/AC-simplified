@@ -17,11 +17,11 @@ SRCS += $(addprefix p.pochi/, main.s.tex $(addprefix img/, circuit.png motion.pn
 SRCS += $(addprefix p.server/, main.s.tex $(addprefix img/, peri-circ1.png peri-circ2.png))
 SRCS += $(addprefix p.vc4/, main.tex)
 SRCS += $(addprefix p.fb/, main.s.tex $(addprefix img/, out.png bcast.png))
+SRCS += $(addprefix p.btk/, main.s.tex usb2bt.s.tex btktab.tex $(addprefix img/, btkorig.png btkbase.png relay1.png relay2.png btksemiall.png $(addprefix usb2bt2-, $(addprefix rn42-, comp.png))) relay-circuit.roff)
 
 #SRCS += $(addprefix p.ibk/, main.tex)
 #SRCS += $(addprefix p.hist/, main.tex)
 #SRCS += $(addprefix p.centerms/, main.tex)
-#SRCS += $(addprefix p.btk/, main.tex usb2bt.tex btktab.tex usb2bt2.tex $(addprefix img/, btkbase.png btkfuck.png btkorig.png relay1.png relay2.png btksemiall.png comp1.png comp2.png driver1.png driver2.png usb2bt2-rn42-comp.png usb2bt2-rn42-base1.png usb2bt2-rn42-base2.png usb2bt2-rn42-fin.png usb2bt2-rn42-guriko1.png usb2bt2-rn42-guriko2.png usb2bt2-rn42.png usb2bt2-rn42-sn.png usb2bt2-rn42-terminal.png usb2bt2-rn42-test.png usb2bt2-rn42-vinyl.png bridge1.png bridge2.png usbhostshield20.png) rn42-setup.txt relay-circuit.roff)
 #SRCS += $(addprefix p.stamp/, main.tex $(addprefix img/, handwriting.png stamp1.png stamp2.png))
 #SRCS += $(addprefix p.overture/, main.tex)
 ALLDEPS := Makefile

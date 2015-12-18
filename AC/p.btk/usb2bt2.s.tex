@@ -1,0 +1,91 @@
+\mmpart{RN-42を用いた方法} \label{sc:usb2bt2}
+BluetoothモジュールであるRN-42には、
+UART経由で受信したデータをそのままBluetoothの接続先に送信する機能がある。
+今回は、RN-42を用いてUSBキーボードをBluetoothに変換した。
+
+マイコンボードとしてはArduino Unoを用いた。
+また、マイコンボードとUSBキーボードの接続にはUSB Host Shield 2.0を用いた。
+
+今回はキーマッピングを実装しようと考えた。
+ここでのキーマッピングとは、キーボードのキーレイアウトに合わせた入力を
+可能にすることと、コンシューマキー等を設定することである。
+
+キーマッピングにはLinuxの標準的なキーマッピングシステムである
+kbdを利用することを考えた。
+kdbには様々なキーボードのキーレイアウトを記した
+キーマッピングファイルが含まれている。
+これにより、様々なキーボードのキーレイアウトを新たに定義する必要がなくなり、また、
+キーマッピングを適宜編集しやすくなった。
+
+しかし、ArduinoはUSB Host Shield 2.0からHID usage IDを受信し、
+RN-42にはHID usage IDを使った形式でデータを送信するので、
+キーマッピングのテーブルは変換前と後ともにHID usage IDベースである必要がある。
+よって、次の3段階の手順によって、kbdに含まれているキーマッピングファイル中の
+テーブルを、HID usage IDをHID usage IDにマップする形式に変換することにした。
+\begin{enumerate}
+ \item キーコードをasciiコードにマップする
+  キーマッピングのテーブルを作成する \label{enum:usb2bt2-mapping-1}
+ \item HID usage IDをasciiコードにマップする
+  キーマッピングのテーブルを作成する \label{enum:usb2bt2-mapping-2}
+ \item HID usage IDをHID usage IDにマップする
+  キーマッピングのテーブルを作成する \label{enum:usb2bt2-mapping-3}
+\end{enumerate}
+
+\mmmpart{手順\ref{enum:usb2bt2-mapping-1}}
+loadkeysには読み込んだキーマッピングファイルを、キーコードをasciiコードに
+マップするテーブルに変換して出力する機能がある。
+本手順はこの機能を使うことで実現した\footnote{Linuxと同じく、
+USB Host Shield 2.0とそのライブラリはデフォルトでは接続されたUSBキーボードの
+キーレイアウトをusであると判断するので、loadkeysのシステムをそのまま使うことが
+できた}。
+
+しかし、loadkeysはデフォルトで、今回の用途では必要ない情報を出力したり、
+逆に最低限のマッピングテーブルしか出力してくれなかったりした。
+よって、その部分に関しては自分でloadkeysのプログラムを修正した。
+
+本手順のために開発したプログラムを\cite{bib:keymap_table_gen}に示す。
+
+\mmmpart{手順\ref{enum:usb2bt2-mapping-2}}
+この手順を行うためには、キーコードをHID usage IDに変換するテーブルが必要だった。
+このテーブルは自分で作成した。
+キーコードもHID usage IDも、キーの印字とコードは一対一対応しているので、
+このテーブルを作成するのは現実的であった。
+
+このテーブルの作成は、以下の2つの方法で得たコードを照合させることで行った。
+\begin{itemize}
+ \item キーボードをコンピュータに接続し、コンピュータで
+  showkey\footnote{コンソールで押下・解放されたキーボードのキーのキーコード
+  を表示するプログラム。kbdに含まれている。}
+  を起動させ、それぞれのキーのキーコードを読む。
+ \item Arduinoに接続したUSB Host Shield 2.0にキーボードを接続し、
+  ArduinoでそれぞれのキーのHID usage IDを読む。
+\end{itemize}
+今回作成したテーブルと、それをC言語から利用しやすい形式に変換する
+プログラムを\cite{bib:keycode2hidusage}に示す。
+
+\mmmpart{手順\ref{enum:usb2bt2-mapping-3}}
+この手順を行うためには、asciiコードをHID usage IDに変換するテーブルが
+必要である。
+このテーブルとしては文献\cite{bib:uhl}のものを使用した。
+
+また、今回は、kbdのキーマッピングの設定を上書きしたり、
+コンシューマキーをマップするため、独自のフォーマットのマッピングファイルを
+適用することができる仕組みも追加した。
+これを使うことで、例えばAppleのiOSで検索のボックスを出すためのキーをF3キーに
+割り当てたりすることができるようになる。
+
+実際のマッピングのデータは数キロバイトに及んだ。
+そのため、実行時にデータをメモリに展開せずフラッシュから値を直接読むPGMで
+マッピングのデータを保存した。
+
+\bigskip
+完成した回路を図\ref{fig:usb2bt2-rn42-comp}に示す。
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.5\linewidth}
+\frame{\includegraphics[height=\textheight,width=\textwidth,keepaspectratio]{\wrkdir img/usb2bt2-rn42-comp.png}}
+\caption{完成した回路 (最上段:RN-42、最下段:Arduino)}
+\label{fig:usb2bt2-rn42-comp}
+\end{minipage}
+\end{figure}

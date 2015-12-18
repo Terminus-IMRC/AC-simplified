@@ -44,6 +44,9 @@
 \newcommand{\mmpart}[1]{%
 \subsection{#1}
 }
+\newcommand{\mmmpart}[1]{%
+\subsubsection{#1}
+}
 
 \newcommand{\incpart}[1]{%
 %\setcounter{section}{0}
@@ -51,7 +54,7 @@
 \setcounter{figure}{0}
 \setcounter{table}{0}
 \setcounter{equation}{0}
-%\clearpage
+\clearpage
 \input{#1}
 }
 
@@ -82,7 +85,7 @@
 \incpart{p.server/main.s}
 \incpart{p.vc4/main}
 \incpart{p.fb/main.s}
-%\incpart{p.btk/main.s}
+\incpart{p.btk/main.s}
 
 %\incpart{p.hist/main}
 %\incpart{p.stamp/main}

@@ -1,0 +1,117 @@
+\mmpart{安価なBluetoothキーボードの基板を用いた方法} \label{sc:usb2bt}
+初め、安価なBluetoothキーボードの基板を用いて
+USBキーボードをBluetoothに変換する方法を考えた。
+具体的には、マイコンボードにUSBキーボードを接続し、
+キー情報を受け取ったマイコンがBluetoothキーボードの基板に司令を送るという流れだ。
+
+今回使用したBluetoothキーボード (図\ref{fig:btkorig}) の基板
+(以下、当該基板と表記する) は、メインのチップに接続された
+EEPROMにテーブルを備えており、行に相当するピンと列に相当するピンをショートさせると
+そのテーブル中の該当する文字がBluetoothで送信されるという機能を持っている。
+当該基板のテーブル中の文字の並びは、
+図\ref{fig:btkbase}のように当該基板から配線を引き、
+ショートさせる組合せを総当りして解析した。
+判明したテーブルを表\ref{tab:btktab}に示す。
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.45\linewidth}
+\frame{\includegraphics[height=\textheight,width=\textwidth,keepaspectratio]{\wrkdir img/btkorig.png}}
+\caption{今回使用したBluetoothキーボード}
+\label{fig:btkorig}
+\end{minipage}
+\begin{minipage}{0.45\linewidth}
+\frame{\includegraphics[height=\textheight,width=\textwidth,keepaspectratio]{\wrkdir img/btkbase.png}}
+\caption{当該基板の内部テーブル解析の様子}
+\label{fig:btkbase}
+\end{minipage}
+\end{figure}
+
+\input{\wrkdir btktab}
+
+今回は電磁リレーを用いてピンをショートさせるようにした。
+回路の構成を図\ref{fig:relay-circuit}に示す。
+また、実際の回路を図\ref{fig:relay1}と図\ref{fig:relay2}に示す。
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.5\linewidth}
+\includegraphics[height=\textheight,width=\textwidth,keepaspectratio]{\tmpdir img/relay-circuit.roff.dvi.pdf.eps}
+\caption{今回作成したリレー回路の構造}
+\label{fig:relay-circuit}
+\end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.35\linewidth}
+\frame{\includegraphics[height=\textheight,width=\textwidth,keepaspectratio]{\wrkdir img/relay1.png}}
+\caption{今回作成したリレー回路 (表)}
+\label{fig:relay1}
+\end{minipage}
+\begin{minipage}{0.35\linewidth}
+\frame{\includegraphics[height=\textheight,width=\textwidth,keepaspectratio]{\wrkdir img/relay2.png}}
+\caption{今回作成したリレー回路 (裏)}
+\label{fig:relay2}
+\end{minipage}
+\end{figure}
+
+マイコンボードとしてはArduino Mega 2560を用いた。
+また、マイコンボードとUSBキーボードの接続にはUSB Host Shield 2.0を用いた。
+USB Host Shield 2.0はUSBキーボードからの入力を
+HID usage ID\footnote{USB Implementers' Forum による
+Universal Serial Bus (USB) HID Usage Tablesという
+ドキュメントで定義されているコード。}でマイコンボードに送信する。
+よって今回は、HID Usage ID を
+行と列に相当するピンをショートさせるためのリレーが接続されている
+マイコンボードのピン番号に変換するテーブルを書いた。
+
+今回作成したプログラムを\cite{bib:usb2bt}に示す。
+
+完成した回路を図\ref{fig:btksemiall}に示す。
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.6\linewidth}
+\frame{\includegraphics[height=\textheight,width=\textwidth,keepaspectratio]{\wrkdir img/btksemiall.png}}
+\caption{完成した回路}
+\label{fig:btksemiall}
+\end{minipage}
+\end{figure}
+
+上記の回路とソフトウェアを実際に動作させてみると、
+接続したUSBキーボードで入力した文字がBluetoothでデバイスに送信されるという
+基本的な機能はうまく動作した。
+しかし、以下の問題がみられた。
+\begin{itemize}
+ \item リレー
+  \begin{itemize}
+   \item キーボードのキーを連続して素早く押すとリレーの動作が間に合わず、
+          文字が正常に送信されなかったり、余分な文字が送信されてしまう場合がある。
+   \item リレーの消費電力が大きい。
+   \item 回路の仕様上、同時に1本ずつまたは1本と2本ずつのデーブルの行と列を選択することができない。
+          つまり、同時に押すことができるキーが限られている。
+          修飾キーも他のキーと同じテーブルに割り当てられているので、
+          これらのキーも他のキーと同様に、他のキーと同時に押すことができるとは限らない。
+          しかし、修飾キーは他のキーと組み合わせて使うことが多いので、
+          この仕様は非常に不便である。
+          これを解決する方法として、それぞれの修飾キーに該当する行と列に例外的に
+          電磁リレーを取り付けることが考えられたが、
+          この回路には他にも多くの問題がみられたため、実装は見送った。
+  \end{itemize}
+ \item 当該基板
+  \begin{itemize}
+   \item Bluetoothで送信することのできる全ての文字が当該基板のEEPROMのテーブルに含まれているわけではないので、
+         現時点では全ての文字の送信には対応していない。
+         当該基板のメインのチップは仕様が公開されているので、EEPROMを書き換えて対応する文字の種類を増やすこともできるが、
+         そもそも行と列に対応するピンの本数が少なく\footnote{行に対応するピンは8本、列に対応するピンは15本あり、
+         全部で120通りの文字を表現することができるが、Bluetoothで送信することのできる全ての文字(HID usage IDの種類)は
+         予約されているものを含めると65536種類あり、これは行と列に対応するピンで表現できる文字の種類を大きく超えている。}、
+         Bluetoothで送信することのできる全ての文字の送信に対応することは不可能である。
+  \end{itemize}
+ \item プログラム
+  \begin{itemize}
+   \item キーマッピングの機能が実装されていないので、キーボードのキー配列が常にusと認識され、
+         キーボードのキーに実際に印字されている文字に合致しない文字が出力されてしまう場合がある。
+  \end{itemize}
+\end{itemize}

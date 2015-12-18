@@ -1,0 +1,88 @@
+.PS
+fillval = 1.0;
+circlerad = 0.035;
+
+CC1: circle fill
+move from last circle.n up; circle fill
+line from CC1.c to last circle.c
+line invis from last circle.c left 2.0*circlerad
+move from last circle.c up; circle fill
+line from last line.w to last circle.c
+line from last circle.c up
+
+move from CC1.c right; CC2: circle fill
+move from last circle.c up; circle fill
+line from CC2.c to last circle.c
+line invis from last circle.c left 2.0*circlerad
+move from last circle.c up; circle fill
+line from last line.w to last circle.c
+CL2: line from last circle.c up
+
+move from CC2.c right; CC3: circle fill
+move from last circle.c up; circle fill
+line from CC3.c to last circle.c
+line invis from last circle.c left 2.0*circlerad
+move from last circle.c up; circle fill
+CL3: line from last line.w to last circle.c
+line from last circle.c up
+
+move from CC1.c left; RCC: circle fill
+
+move from RCC.c down; RC1: circle fill
+move from last circle.c left; circle fill
+line from RC1.c to last circle.c
+line invis from last circle.c up 2.0*circlerad
+move from last circle.c left; circle fill
+line from last line.n to last circle.c
+line from last circle.c left
+
+move from RC1.c down; RC2: circle fill
+move from last circle.c left; RC2a: circle fill
+line from RC2.c to last circle.c
+line invis from last circle.c up 2.0*circlerad
+move from last circle.c left; circle fill
+line from last line.n to last circle.c
+RL2: line from last circle.c left
+
+move from RC2.c down; RC3: circle fill
+move from last circle.c left; circle fill
+line from RC3.w to last circle.c
+line invis from last circle.c up 2.0*circlerad
+move from last circle.c left; circle fill
+RL3: line from last line.n to last circle.c
+line from last circle.c left
+
+line from CC3.c right 0.5*lineht
+line from last line.e right dashed
+line from CC3.c to CC2.c
+line from CC2.c to CC1.c
+line from CC1.c to RCC.c
+line from RCC.c to RC1.c
+line from RC1.c to RC2.c
+line from RC2.c to RC3.c
+line from RC3.c down 0.3*lineht
+line from last line.s down dashed
+
+line invis from CL3.c right 0.75*lineht
+line from last line.e right dashed
+line invis from RL3.c down 0.55*lineht
+line from last line.s down dashed
+
+move from CL2.n up 0.0; box invis "pin select"
+move from RL2.w left 0.0; box invis "pin" "select"
+
+
+move from RC2a.c right 1.25
+[
+EXC: circle invis
+move from last circle.c left 0.5*lineht; circle fill
+line from EXC.w to last circle.c
+line invis from last circle.c up 2.0*circlerad
+move from last circle.c left; circle fill
+EXL: line from last line.n to last circle.c
+line from last circle.c left 0.5*lineht
+move from EXL.c down 0.0; box invis "electric" "relay switch"
+]
+box ht last [].ht + 0.1 wid last [].wid + 0.1 at last []
+
+.PE
