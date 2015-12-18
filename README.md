@@ -9,3 +9,6 @@ $ cd AC/
 $ curl http://imrc.noip.me/AC/89f6a76d/img-20151030.tar | tar xf -
 $ make pdf
 </pre>
+
+## 一言
+プルリク募集してます。
