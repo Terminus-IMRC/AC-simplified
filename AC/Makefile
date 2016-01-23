@@ -1,3 +1,5 @@
+USE_TMPFS := 1
+
 TMPDIR := tmp
 TMPIMGDIR := $(TMPDIR)/img
 OUTDIR := $(TMPDIR)
@@ -92,7 +94,11 @@ endif
 
 .PHONY: $(TMPDIR)
 $(TMPDIR):
+ifeq '$(USE_TMPFS)' ''
+	$(MKDIR) "$@"
+else
 	scripts/mount_tmp.sh
+endif
 
 $(TMPIMGDIR): | $(TMPDIR)
 	$(MKDIR) "$@"
